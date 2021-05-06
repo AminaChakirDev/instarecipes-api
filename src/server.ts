@@ -1,6 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+import express from 'express';
+import {Request, Response} from "express";
+import mongoose from 'mongoose';
+import asyncHandler from 'express-async-handler';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 const RecipesController = require('./controllers/RecipesController');
 
 mongoose
@@ -19,7 +22,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const asyncErrorHandler = (controller) => {
+app.use(cors());
+
+/*const asyncErrorHandler = (controller) => {
     return async (req, res) => {
         try {
             await controller(req, res);
@@ -33,13 +38,18 @@ const asyncErrorHandler = (controller) => {
         }
     };
 };
+*/
 
-app.get('/api/recipes', asyncErrorHandler(RecipesController.getAll));
-app.post('/api/recipes', asyncErrorHandler(RecipesController.create));
-app.put('/api/recipes/:recipeId', asyncErrorHandler(RecipesController.update));
-app.delete('/api/recipes/:recipeId', asyncErrorHandler(RecipesController.delete));
+app.get('/', (req, res) => {
+    res.send("Hello World");
+})
 
-app.use('*', (req, res) => {
+app.get('/api/recipes', asyncHandler(RecipesController.getAll));
+app.post('/api/recipes', asyncHandler(RecipesController.create));
+app.put('/api/recipes/:recipeId', asyncHandler(RecipesController.update));
+app.delete('/api/recipes/:recipeId', asyncHandler(RecipesController.delete));
+
+app.use('*', (req: Request, res: Response) => {
     res.status(404).json({ error: "not found" });
 });
 
