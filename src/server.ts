@@ -1,57 +1,30 @@
+import { ApolloServer } from "apollo-server";
 import 'reflect-metadata';
-import express from 'express';
-import { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import asyncHandler from 'express-async-handler';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-const RecipesController = require('./controllers/RecipesController');
+import {buildSchema} from "type-graphql";
+import {RecipesResolver} from "./resolvers/Recipes";
+import mongoose from "mongoose";
 
-mongoose
-    .connect('mongodb://127.0.0.1:27017/instarecipesdb', {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-    })
-    .then(() => {
-        console.log('Connected to database');
-    })
-    .catch((err) => console.error('Mongoose failed'));
+const PORT = process.env.PORT || 4000;
 
-const app = express();
+async function bootstrap() {
+    await mongoose
+        .connect('mongodb://127.0.0.1:27017/instarecipes', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
+            autoIndex: true,
+        });
 
-app.use(bodyParser.json());
+    const schema = await buildSchema({ resolvers: [RecipesResolver] })
+    const server = new ApolloServer({
+        schema,
+        playground: true,
+    });
 
-app.use(cors());
+    // Start the server
+    const { url } = await server.listen(PORT);
+    console.log(`Server is running, GraphQL Playground available at ${url}`);
+}
 
-/* const asyncErrorHandler = (controller) => {
-    return async (req, res) => {
-        try {
-            await controller(req, res);
-        } catch ({ code, message, status }) {
-            res
-                .status(status || 500)
-                .json({
-                    code,
-                    message
-                });
-        }
-    };
-};
-*/
-
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
-app.get('/api/recipes', asyncHandler(RecipesController.getAll));
-app.post('/api/recipes', asyncHandler(RecipesController.create));
-app.put('/api/recipes/:recipeId', asyncHandler(RecipesController.update));
-app.delete('/api/recipes/:recipeId', asyncHandler(RecipesController.delete));
-
-app.use('*', (req: Request, res: Response) => {
-    res.status(404).json({ error: 'not found' });
-});
-
-app.listen(3000, () => console.log('App is running'));
+bootstrap();

@@ -1,38 +1,47 @@
-import { Recipe } from "../entities/Recipe";
+import { RecipeType } from "../entities/RecipeType";
 import {Arg, Mutation, Query, Resolver} from "type-graphql";
 import {getModelForClass} from "@typegoose/typegoose";
+import {RecipeInput} from "../entities/RecipeInput";
 
-@Resolver(() => Recipe)
+@Resolver(() => RecipeType)
 export class RecipesResolver {
 
-    @Query(() => [Recipe])
-    public async getRecipes(): Promise<Recipe[]> {
-        const RecipeModel = getModelForClass(Recipe);
-        return RecipeModel.find().exec();
+    @Query(() => [RecipeType])
+    public async getRecipes(): Promise<RecipeType[]> {
+        const RecipeModel = getModelForClass(RecipeType);
+        const toto = await RecipeModel.find().exec();
+        console.log(typeof toto[0]._id);
+        return toto;
     }
 
-    @Query(() => Recipe, {nullable: true})
-    public async getRecipe(@Arg('title') title: string): Promise <Recipe> {
-        const RecipeModel = getModelForClass(Recipe);
+    @Query(() => RecipeType, {nullable: true})
+    public async getRecipeByName(@Arg('title') title: string): Promise <RecipeType> {
+        const RecipeModel = getModelForClass(RecipeType);
         return RecipeModel.findOne({ title }).exec();
     }
 
-    @Mutation(() => Recipe, {nullable: true})
-    public async createRecipe(@Arg('data', () => Recipe) data: Recipe): Promise<Recipe> {
-        const RecipeModel = getModelForClass(Recipe);
+    @Query(() => RecipeType, {nullable: true})
+    public async getRecipeById(@Arg('title') title: string): Promise <RecipeType> {
+        const RecipeModel = getModelForClass(RecipeType);
+        return RecipeModel.findOne({ title }).exec();
+    }
+
+    @Mutation(() => RecipeType, {nullable: true})
+    public async createRecipe(@Arg('data', () => RecipeType) data: RecipeType): Promise<RecipeType> {
+        const RecipeModel = getModelForClass(RecipeType);
         return RecipeModel.create(data);
     }
 
     @Mutation(() => Boolean)
     public async deleteRecipe(@Arg('title') title: string): Promise<Boolean> {
-        const RecipeModel = getModelForClass(Recipe);
+        const RecipeModel = getModelForClass(RecipeType);
         await RecipeModel.deleteOne({ title }).exec();
         return true;
     }
 
-    @Mutation(() => Recipe, {nullable: true})
-    public async updateRecipe(@Arg('title') title: string, @Arg('data', () => Recipe) data: Recipe): Promise<Recipe> {
-        const RecipeModel = getModelForClass(Recipe);
+    @Mutation(() => RecipeType, {nullable: true})
+    public async updateRecipe(@Arg('title') title: string, @Arg('data', () => RecipeType) data: RecipeType): Promise<RecipeType> {
+        const RecipeModel = getModelForClass(RecipeType);
         if (RecipeModel === null) {
             return null;
         } else {
@@ -40,7 +49,7 @@ export class RecipesResolver {
         }
     }
 
-    //@Mutation(returns => Recipe, {nullable: true})
+    //@Mutation(returns => RecipeType, {nullable: true})
     //public async deleteRecipe(@Arg('title', type => String) title: string) {
    //     return null;
     //}

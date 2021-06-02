@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only ./src/server_bis.ts",
+    "start": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "lint": "eslint '**/*.ts' --fix --format visualstudio"
   },

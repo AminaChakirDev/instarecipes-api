@@ -1,14 +1,13 @@
-import {Field, InputType, ObjectType} from "type-graphql";
+import {Field, ID, InputType, ObjectType} from "type-graphql";
 import {IsString, Length} from "class-validator";
 import {Ingredient} from "./Ingredient";
 import {prop} from "@typegoose/typegoose";
 
-@ObjectType('RecipeType')
 @InputType('RecipeInput')
-export class Recipe {
+export class RecipeInput {
 
     @Field()
-    @Length(3,20)
+    @Length(3,50)
     @prop()
     title!: string;
 
