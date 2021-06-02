@@ -9,9 +9,7 @@ export class RecipesResolver {
     @Query(() => [RecipeType])
     public async getRecipes(): Promise<RecipeType[]> {
         const RecipeModel = getModelForClass(RecipeType);
-        const toto = await RecipeModel.find().exec();
-        console.log(typeof toto[0]._id);
-        return toto;
+        return RecipeModel.find().exec();
     }
 
     @Query(() => RecipeType, {nullable: true})
@@ -27,8 +25,8 @@ export class RecipesResolver {
     }
 
     @Mutation(() => RecipeType, {nullable: true})
-    public async createRecipe(@Arg('data', () => RecipeType) data: RecipeType): Promise<RecipeType> {
-        const RecipeModel = getModelForClass(RecipeType);
+    public async createRecipe(@Arg('data', () => RecipeInput) data: RecipeInput): Promise<RecipeType> {
+        const RecipeModel = getModelForClass(RecipeInput);
         return RecipeModel.create(data);
     }
 
@@ -40,8 +38,8 @@ export class RecipesResolver {
     }
 
     @Mutation(() => RecipeType, {nullable: true})
-    public async updateRecipe(@Arg('title') title: string, @Arg('data', () => RecipeType) data: RecipeType): Promise<RecipeType> {
-        const RecipeModel = getModelForClass(RecipeType);
+    public async updateRecipe(@Arg('title') title: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
+        const RecipeModel = getModelForClass(RecipeInput);
         if (RecipeModel === null) {
             return null;
         } else {

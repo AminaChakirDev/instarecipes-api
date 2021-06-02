@@ -1,9 +1,12 @@
 import {Field, ID, InputType, ObjectType} from "type-graphql";
 import {IsString, Length} from "class-validator";
 import {Ingredient} from "./Ingredient";
-import {prop} from "@typegoose/typegoose";
+import {modelOptions, prop} from "@typegoose/typegoose";
+import {model} from "mongoose";
 
 @InputType('RecipeInput')
+@ObjectType('RecipeInput')
+@modelOptions({ schemaOptions: { collection: 'recipes' } })
 export class RecipeInput {
 
     @Field()
