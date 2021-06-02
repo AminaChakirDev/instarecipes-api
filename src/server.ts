@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import {buildSchema} from "type-graphql";
 import {RecipesResolver} from "./resolvers/Recipes";
 import mongoose from "mongoose";
+import {IngredientsResolver} from "./resolvers/Ingredients";
 
 const PORT = process.env.PORT || 4000;
 
@@ -16,7 +17,7 @@ async function bootstrap() {
             autoIndex: true,
         });
 
-    const schema = await buildSchema({ resolvers: [RecipesResolver] })
+    const schema = await buildSchema({ resolvers: [RecipesResolver, IngredientsResolver] })
     const server = new ApolloServer({
         schema,
         playground: true,

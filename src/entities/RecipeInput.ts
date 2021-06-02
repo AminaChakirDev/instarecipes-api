@@ -1,8 +1,8 @@
-import {Field, ID, InputType, ObjectType} from "type-graphql";
-import {IsString, Length} from "class-validator";
-import {Ingredient} from "./Ingredient";
-import {modelOptions, prop} from "@typegoose/typegoose";
-import {model} from "mongoose";
+import {Field, InputType, ObjectType} from "type-graphql";
+import {Length} from "class-validator";
+import {IngredientType} from "./IngredientType";
+import {modelOptions, prop, Ref} from "@typegoose/typegoose";
+import {IngredientInput} from "./IngredientInput";
 
 @InputType('RecipeInput')
 @ObjectType('RecipeInput')
@@ -22,7 +22,7 @@ export class RecipeInput {
     @prop()
     instagramAuthor!: string;
 
-    @Field(() => [Ingredient])
-    @prop()
-    ingredients!: Ingredient[];
+    @Field(() => [IngredientInput])
+    @prop({ ref: IngredientInput })
+    ingredients!: IngredientInput[];
 }

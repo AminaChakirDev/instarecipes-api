@@ -2,6 +2,7 @@ import { RecipeType } from "../entities/RecipeType";
 import {Arg, Mutation, Query, Resolver} from "type-graphql";
 import {getModelForClass} from "@typegoose/typegoose";
 import {RecipeInput} from "../entities/RecipeInput";
+import {IngredientType} from "../entities/IngredientType";
 
 @Resolver(() => RecipeType)
 export class RecipesResolver {
@@ -9,7 +10,8 @@ export class RecipesResolver {
     @Query(() => [RecipeType])
     public async getRecipes(): Promise<RecipeType[]> {
         const RecipeModel = getModelForClass(RecipeType);
-        return RecipeModel.find().exec();
+        const ingredientModel = getModelForClass(IngredientType);
+        return RecipeModel.find().populate("ingredients", undefined, ingredientModel).exec();
     }
 
     @Query(() => RecipeType, {nullable: true})
@@ -27,7 +29,9 @@ export class RecipesResolver {
     @Mutation(() => RecipeType, {nullable: true})
     public async createRecipe(@Arg('data', () => RecipeInput) data: RecipeInput): Promise<RecipeType> {
         const RecipeModel = getModelForClass(RecipeInput);
-        return RecipeModel.create(data);
+        const test = await RecipeModel.create(data);
+        console.log(test);
+        return test;
     }
 
     @Mutation(() => Boolean)
@@ -46,9 +50,4 @@ export class RecipesResolver {
             return RecipeModel.findOneAndUpdate({title}, data, {new:true});
         }
     }
-
-    //@Mutation(returns => RecipeType, {nullable: true})
-    //public async deleteRecipe(@Arg('title', type => String) title: string) {
-   //     return null;
-    //}
 }
