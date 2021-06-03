@@ -43,10 +43,11 @@ export class RecipesResolver {
     @Mutation(() => RecipeType, {nullable: true})
     public async updateRecipe(@Arg('title') title: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
         const RecipeModel = getModelForClass(RecipeInput);
+        const ingredientModel = getModelForClass(IngredientType);
         if (RecipeModel === null) {
             return null;
         } else {
-            return RecipeModel.findOneAndUpdate({title}, data, {new:true});
+            return RecipeModel.findOneAndUpdate({title}, data, {new:true}).populate("ingredients", undefined, ingredientModel);
         }
     }
 }
