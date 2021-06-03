@@ -17,7 +17,8 @@ export class RecipesResolver {
     @Query(() => RecipeType, {nullable: true})
     public async getRecipeByName(@Arg('title') title: string): Promise <RecipeType> {
         const RecipeModel = getModelForClass(RecipeType);
-        return RecipeModel.findOne({ title }).exec();
+        const ingredientModel = getModelForClass(IngredientType);
+        return RecipeModel.findOne({ title }).populate("ingredients", undefined, ingredientModel).exec();
     }
 
     @Query(() => RecipeType, {nullable: true})
@@ -29,9 +30,7 @@ export class RecipesResolver {
     @Mutation(() => RecipeType, {nullable: true})
     public async createRecipe(@Arg('data', () => RecipeInput) data: RecipeInput): Promise<RecipeType> {
         const RecipeModel = getModelForClass(RecipeInput);
-        const test = await RecipeModel.create(data);
-        console.log(test);
-        return test;
+        return  RecipeModel.create(data);
     }
 
     @Mutation(() => Boolean)
