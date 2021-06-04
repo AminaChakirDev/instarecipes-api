@@ -22,6 +22,22 @@ export class RecipeInput {
     @prop()
     instagramAuthor!: string;
 
+    @Field()
+    @prop()
+    preparationTime!: number;
+
+    @Field()
+    @prop()
+    createdAt!: string;
+
+    @Field()
+    @prop()
+    updatedAt!: string;
+
+    @Field()
+    @prop()
+    onTop!: boolean;
+
     @Field(() => [IngredientInput])
     @prop({ ref: IngredientInput })
     ingredients!: IngredientInput[];
