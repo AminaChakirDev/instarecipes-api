@@ -39,6 +39,10 @@ export class RecipeInput {
     @prop()
     onTop!: boolean;
 
+    @Field()
+    @prop()
+    poster!: string;
+
     @Field(() => [IngredientInput])
     @prop({ ref: IngredientInput })
     ingredients!: IngredientInput[];
