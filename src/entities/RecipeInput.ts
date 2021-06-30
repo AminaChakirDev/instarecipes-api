@@ -17,6 +17,10 @@ export class RecipeInput {
 
     @Field()
     @prop()
+    slug!: string;
+
+    @Field()
+    @prop()
     instagramUrl!: string;
 
     @Field()
