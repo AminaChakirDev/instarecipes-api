@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 4000;
 
 async function bootstrap() {
     await mongoose
-        .connect('mongodb://127.0.0.1:27017/instarecipes', {
+        .connect('mongodb://mongo:27017/instarecipes', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
