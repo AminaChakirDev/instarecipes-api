@@ -18,4 +18,8 @@ export class IngredientInput {
     @Field()
     @prop()
     icon: string;
+
+    @Field({nullable: true})
+    __typename: undefined
+
 }
