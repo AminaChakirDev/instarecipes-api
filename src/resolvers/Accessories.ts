@@ -19,9 +19,9 @@ export class AccessoriesResolver {
     }
 
     @Query(() => AccessoryType, {nullable: true})
-    public async getAccessoryById(@Arg('title') title: string): Promise <AccessoryType> {
+    public async getAccessoryById(@Arg('_id') _id: string): Promise <AccessoryType> {
         const AccessoryModel = getModelForClass(AccessoryType);
-        return AccessoryModel.findOne({ title }).exec();
+        return AccessoryModel.findOne({ _id }).exec();
     }
 
     @Mutation(() => AccessoryType, {nullable: true})
@@ -31,19 +31,19 @@ export class AccessoriesResolver {
     }
 
     @Mutation(() => Boolean)
-    public async deleteAccessory(@Arg('title') title: string): Promise<Boolean> {
+    public async deleteAccessory(@Arg('_id') _id: string): Promise<Boolean> {
         const AccessoryModel = getModelForClass(AccessoryType);
-        await AccessoryModel.deleteOne({ title }).exec();
+        await AccessoryModel.deleteOne({ _id }).exec();
         return true;
     }
 
     @Mutation(() => AccessoryType, {nullable: true})
-    public async updateAccessory(@Arg('title') title: string, @Arg('data', () => AccessoryInput) data: AccessoryType): Promise<AccessoryType> {
+    public async updateAccessory(@Arg('_id') _id: string, @Arg('data', () => AccessoryInput) data: AccessoryType): Promise<AccessoryType> {
         const AccessoryModel = getModelForClass(AccessoryInput);
         if (AccessoryModel === null) {
             return null;
         } else {
-            return AccessoryModel.findOneAndUpdate({title}, data, {new:true});
+            return AccessoryModel.findOneAndUpdate({_id}, data, {new:true});
         }
     }
 

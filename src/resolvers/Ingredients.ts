@@ -19,9 +19,9 @@ export class IngredientsResolver {
     }
 
     @Query(() => IngredientType, {nullable: true})
-    public async getIngredientById(@Arg('title') title: string): Promise <IngredientType> {
+    public async getIngredientById(@Arg('_id') _id: string): Promise <IngredientType> {
         const IngredientModel = getModelForClass(IngredientType);
-        return IngredientModel.findOne({ title }).exec();
+        return IngredientModel.findOne({ _id }).exec();
     }
 
     @Mutation(() => IngredientType, {nullable: true})
@@ -31,19 +31,19 @@ export class IngredientsResolver {
     }
 
     @Mutation(() => Boolean)
-    public async deleteIngredient(@Arg('title') title: string): Promise<Boolean> {
+    public async deleteIngredient(@Arg('_id') _id: string): Promise<Boolean> {
         const IngredientModel = getModelForClass(IngredientType);
-        await IngredientModel.deleteOne({ title }).exec();
+        await IngredientModel.deleteOne({ _id }).exec();
         return true;
     }
 
     @Mutation(() => IngredientType, {nullable: true})
-    public async updateIngredient(@Arg('title') title: string, @Arg('data', () => IngredientInput) data: IngredientType): Promise<IngredientType> {
+    public async updateIngredient(@Arg('_id') _id: string, @Arg('data', () => IngredientInput) data: IngredientType): Promise<IngredientType> {
         const IngredientModel = getModelForClass(IngredientInput);
         if (IngredientModel === null) {
             return null;
         } else {
-            return IngredientModel.findOneAndUpdate({title}, data, {new:true});
+            return IngredientModel.findOneAndUpdate({_id}, data, {new:true});
         }
     }
 

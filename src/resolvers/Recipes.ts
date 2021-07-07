@@ -38,9 +38,9 @@ export class RecipesResolver {
     }
 
     @Query(() => RecipeType, {nullable: true})
-    public async getRecipeById(@Arg('title') title: string): Promise <RecipeType> {
+    public async getRecipeById(@Arg('_id') _id: string): Promise <RecipeType> {
         const RecipeModel = getModelForClass(RecipeType);
-        return RecipeModel.findOne({ title }).exec();
+        return RecipeModel.findOne({ _id }).exec();
     }
 
     @Mutation(() => RecipeType, {nullable: true})
