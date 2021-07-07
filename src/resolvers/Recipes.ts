@@ -57,7 +57,7 @@ export class RecipesResolver {
     }
 
     @Mutation(() => RecipeType, {nullable: true})
-    public async updateRecipe(@Arg('title') title: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
+    public async updateRecipe(@Arg('_id') title: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
         const RecipeModel = getModelForClass(RecipeInput);
         const IngredientModel = getModelForClass(IngredientType);
         const AccessoryModel = getModelForClass(AccessoryType);
