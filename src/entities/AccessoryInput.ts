@@ -16,5 +16,9 @@ export class AccessoryInput {
 
     @Field()
     @prop()
+    slug!: string;
+
+    @Field()
+    @prop()
     icon: string;
 }
