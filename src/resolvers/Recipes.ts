@@ -50,9 +50,9 @@ export class RecipesResolver {
     }
 
     @Mutation(() => Boolean)
-    public async deleteRecipe(@Arg('title') title: string): Promise<Boolean> {
+    public async deleteRecipe(@Arg('_id') _id: string): Promise<Boolean> {
         const RecipeModel = getModelForClass(RecipeType);
-        await RecipeModel.deleteOne({ title }).exec();
+        await RecipeModel.deleteOne({ _id }).exec();
         return true;
     }
 
