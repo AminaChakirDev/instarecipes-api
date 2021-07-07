@@ -19,7 +19,4 @@ export class IngredientInput {
     @prop()
     icon: string;
 
-    @Field({nullable: true})
-    __typename: undefined
-
 }
