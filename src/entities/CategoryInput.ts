@@ -17,5 +17,9 @@ export class CategoryInput {
 
     @Field()
     @prop()
+    slug!: string;
+
+    @Field()
+    @prop()
     icon: string;
 }
