@@ -57,17 +57,16 @@ export class RecipesResolver {
     }
 
     @Mutation(() => RecipeType, {nullable: true})
-    public async updateRecipe(@Arg('_id') title: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
+    public async updateRecipe(@Arg('_id') _id: string, @Arg('data', () => RecipeInput) data: RecipeType): Promise<RecipeType> {
         const RecipeModel = getModelForClass(RecipeInput);
         const IngredientModel = getModelForClass(IngredientType);
         const AccessoryModel = getModelForClass(AccessoryType);
         const CategoryModel = getModelForClass(CategoryType);
         if (RecipeModel === null) {
-            console.log("toto")
             return null;
         } else {
             return RecipeModel
-                .findOneAndUpdate({title}, data, {new:true})
+                .findOneAndUpdate({_id}, data, {new:true})
                 .populate("ingredients", undefined, IngredientModel)
                 .populate("accessories", undefined, AccessoryModel)
                 .populate("categories", undefined, CategoryModel);
