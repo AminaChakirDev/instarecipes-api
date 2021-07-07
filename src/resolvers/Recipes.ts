@@ -63,6 +63,7 @@ export class RecipesResolver {
         const AccessoryModel = getModelForClass(AccessoryType);
         const CategoryModel = getModelForClass(CategoryType);
         if (RecipeModel === null) {
+            console.log("toto")
             return null;
         } else {
             return RecipeModel
